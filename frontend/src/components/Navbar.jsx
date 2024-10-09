@@ -1,39 +1,11 @@
-import { CiShoppingCart, CiLogin, CiLogout } from "react-icons/ci";
+import { CiShoppingCart, CiLogin } from "react-icons/ci";
 import { IoMdPersonAdd } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../redux/slices/auth.js"; // Import logout action
-import { toast } from "react-hot-toast"; // For showing notifications
-import { useState } from "react"; // For managing modal visibility
-import ConfirmationModal from "./ConfirmationModal"; // Import the modal
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import AccountDropdown from "./acountDropdown";
 
 const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth); // Get auth state
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to handle modal visibility
-
-  const handleLogout = async () => {
-    try {
-      await dispatch(logout()).unwrap(); // Dispatch the logout action
-      toast.success("Logged out successfully!"); // Show success message
-    } catch (error) {
-      toast.error("Failed to log out.");
-    }
-  };
-
-  const handleLogoutClick = () => {
-    setIsModalOpen(true); // Open the modal
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
-  };
-
-  const confirmLogout = () => {
-    handleLogout(); // Confirm the logout and proceed
-    closeModal(); // Close the modal
-  };
 
   return (
     <div className="bg-black min-h-16 p-4">
@@ -58,22 +30,7 @@ const Navbar = () => {
           )}
 
           {isAuthenticated ? (
-            <>
-              <button
-                onClick={handleLogoutClick} // Open modal on logout click
-                className="bg-gray-800 opacity-80 hover:opacity-100 p-2 rounded-md text-white text-[35px] flex justify-center items-center shadow-lg hover:drop-shadow-[0_0_10px_rgb(0,255,255)] transition-all duration-500"
-              >
-                <CiLogout />
-                <span className="text-2xl">Logout</span>
-              </button>
-
-              {/* Logout Confirmation Modal */}
-              <ConfirmationModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                onConfirm={confirmLogout}
-              />
-            </>
+            <AccountDropdown user={user} /> // Show the AccountDropdown when authenticated
           ) : (
             <>
               <Link

@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import { useEffect } from "react";
+import Account from "./pages/auth/account.jsx";
+import ResetPassword from "./pages/auth/resetPassword.jsx";
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(checkAuth()); // Check authentication on app load
+
   },[checkAuth])
   return (
       <div className="bg-gray-900 min-h-screen overflow-hidden ">
@@ -31,8 +34,10 @@ function App() {
           <div className="pt-20">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/signup" element={<Signup /> } />
               <Route path="/login" element={<Login />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
           </div>
         </div>

@@ -87,6 +87,22 @@ export const verifyEmail = async (req, res) => {
   res.json({msg: "Email verified successfully"})
 
 }
+export const resendCode = async (req, res) => {
+  const {email} = req.body
+  const user = await User.findOne({email})
+  if(!user){
+    return res.status(400).json({msg: "User not found"})
+  }
+  if(user.isVerified){
+    return res.status(400).json({msg: "Email is already verified"})
+  }
+  const verificationToken = Math.floor(10000 + Math.random() * 9000000).toString();
+  user.verificationToken = verificationToken;
+  user.verificationTokenExpires = Date.now() + 24 * 60 * 60 * 1000; // Expires in 24 hours
+  await user.save();
+  await sendVerificationEmail(user.email, verificationToken)
+  res.json({msg: "Verification code sent successfully"})
+}
 export const login = async (req,res) => {
   const {email , password} = req.body
   if(!email || !password){
@@ -106,24 +122,37 @@ export const logout = async (req,res) => {
   res.json({msg: "Logged out successfully"})
 }
 
-export const forgotPassword = async (req,res) => {
-  const {email} = req.body
-  if(!email){
-    return res.status(400).json({msg: "Please provide an email"})
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ msg: "Please provide an email" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Generate a reset token (consider using crypto for stronger randomness)
+    const resetToken = Math.floor(10000 + Math.random() * 9000000).toString();
+
+    user.resetToken = resetToken;
+    user.resetTokenExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
+
+    await user.save();
+
+    // Send reset password email (consider adding try-catch here as well)
+    await sendResetPasswordEmail(user.email, resetToken);
+
+    return res.status(200).json({ msg: "Reset password link sent successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Server error. Please try again later." });
   }
-  const user = await User.findOne({email})
-  if(!user){
-    return res.status(400).json({msg: "User not found"})
-  }
-  const resetToken = Math.floor(
-    10000 + Math.random() * 9000000
-  ).toString();
-  user.resetToken = resetToken;
-  user.resetTokenExpires = Date.now()+10*60*1000;
-  await user.save();
-  await sendResetPasswordEmail(user.email, resetToken)
-  res.json({msg: "Reset password link sent successfully"})
-}
+};
+
 
 export const resetPassword = async (req,res) => {
   const {resetToken, newPassword} = req.body

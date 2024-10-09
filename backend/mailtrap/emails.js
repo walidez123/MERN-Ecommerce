@@ -1,5 +1,5 @@
 import { mailtrapClient ,sender } from "./mailtrapConfig.js"
-import { VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js"
+import { VERIFICATION_EMAIL_TEMPLATE , RESET_EMAIL_TEMPLATE } from "./emailTemplates.js"
 
 export const sendVerificationEmail = async (email , token)=>{
     const recipient = [{email}]
