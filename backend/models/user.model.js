@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
 
 const { Schema } = mongoose;
 
@@ -26,6 +25,10 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  cart: { 
+    type: Schema.Types.ObjectId, 
+    ref: "Cart" 
+  }, 
   isActive: {
     type: Boolean,
     default: true,
@@ -40,7 +43,7 @@ const userSchema = new Schema({
   verificationTokenExpires: {
     type: Date,
   },
-  resetToken:{
+  resetToken: {
     type: String,
   },
   resetTokenExpires: {

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { verifyEmail, resendCode } from "../../redux/slices/auth"; // Import the actions
 import { toast } from "react-hot-toast";
+import StandardButton from "../../components/buttons/standerdButton";
 
 const Account = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -23,10 +24,9 @@ const Account = () => {
   // Handle email verification
   const handleVerifyEmail = async () => {
     try {
-      await dispatch(verifyEmail({token: verificationCode })).unwrap(); // Pass the verification code
+      await dispatch(verifyEmail({ token: verificationCode })).unwrap(); // Pass the verification code
       toast.success("Email verified successfully!");
-      window.location.reload()
-
+      window.location.reload();
     } catch (error) {
       toast.error("Failed to verify email.");
     }
@@ -39,11 +39,11 @@ const Account = () => {
   }, [isAuthenticated]);
 
   return (
-    <div className="flex flex-col text-white p-8 w-[80%] m-auto">
+    <div className="flex flex-col border rounded-md text-white p-8 w-[80%] m-auto">
       <h1 className="text-3xl font-bold mb-4">My Account</h1>
 
       {/* Account Details Section */}
-      <div className="bg-gray-800 p-4 rounded-lg shadow-md mb-6">
+      <div className="border-b-2 p-4  shadow-md mb-6">
         <h2 className="text-xl font-semibold mb-2">Account Details</h2>
         <p>
           <strong>Name:</strong> {user?.name}
@@ -61,7 +61,7 @@ const Account = () => {
           <div className="flex gap-2 items-center">
             {/* Input field for verification code */}
             <input
-              className="text-white bg-gray-700 py-2 px-4 rounded-md mt-4"
+              className="bg-white rounded-md text-black py-2 px-4  mt-4"
               type="text"
               placeholder="Enter Verification Code"
               value={verificationCode}
@@ -70,26 +70,26 @@ const Account = () => {
 
             {/* Button to verify email */}
             <button
+              className="mt-4"
               onClick={handleVerifyEmail} // Verify email with entered code
-              className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md mt-4"
             >
-              Verify Email
+              <StandardButton>Verify Email</StandardButton>
             </button>
 
             {/* Resend code button */}
-            <span className="items-center">or</span>
+            <span className="items-center mt-4">or</span>
             <button
+              className="mt-4"
               onClick={handleResendCode} // Resend verification code
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md mt-4"
             >
-              Resend Code
+              <StandardButton>Resend Code</StandardButton>
             </button>
           </div>
         )}
       </div>
 
       {/* Orders Section */}
-      <div className="bg-gray-800 p-4 rounded-lg shadow-md">
+      <div className=" p-4 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-2">My Orders</h2>
         {/* Add logic to display user's orders */}
         <p>You have no orders yet.</p>

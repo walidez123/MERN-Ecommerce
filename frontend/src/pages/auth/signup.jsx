@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../redux/slices/auth.js"; // Adjust the path as necessary
 import { toast } from "react-hot-toast"; // Import toast
+import StandardButton from "../../components/buttons/standerdButton.jsx";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +15,10 @@ const Signup = () => {
   });
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   // Handle input change
   const handleChange = (e) => {
@@ -25,9 +28,9 @@ const Signup = () => {
       [name]: value,
     }));
   };
-  useEffect(()=>{
-    if(isAuthenticated)navigate('/')
-  },[isAuthenticated])
+  useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }, [isAuthenticated]);
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +46,7 @@ const Signup = () => {
     if (response.meta.requestStatus === "fulfilled") {
       toast.success("account created  successfully!");
       navigate("/"); // Redirect to home page
-      window.location.reload()
+      window.location.reload();
     } else if (error) {
       toast.error(response.payload.msg);
     }
@@ -57,7 +60,7 @@ const Signup = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="bg-gray-900 min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
+        <div className="border min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               type="text"
@@ -66,7 +69,7 @@ const Signup = () => {
               required
               value={formData.name}
               onChange={handleChange}
-              className="p-3 bg-gray-600 rounded-md text-white"
+              className="p-3 bg-white rounded-md text-black"
             />
             <input
               type="email"
@@ -75,7 +78,7 @@ const Signup = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="p-3 bg-gray-600 rounded-md text-white"
+              className="p-3 bg-white rounded-md text-black"
             />
             <input
               type="password"
@@ -84,7 +87,7 @@ const Signup = () => {
               required
               value={formData.password}
               onChange={handleChange}
-              className="p-3 bg-gray-600 rounded-md text-white"
+              className="p-3 bg-white rounded-md text-black"
             />
             <input
               type="password"
@@ -93,15 +96,15 @@ const Signup = () => {
               required
               value={formData.passwordII}
               onChange={handleChange}
-              className="p-3 bg-gray-600 rounded-md text-white"
+              className="p-3 bg-white rounded-md text-black"
             />
-            <button
-              className={`bg-green-600 text-white p-3 rounded-md text-xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            <StandardButton
+              className={`${loading ? "opacity-50 cursor-not-allowed" : ""}`}
               type="submit"
               disabled={loading}
             >
-              {loading ? 'Creating...' : 'Create an account'}
-            </button>
+              <span className="text-xl">{loading ? "Creating..." : "Create an account"}</span>
+            </StandardButton>
             {/* {error && <p className="text-red-500 text-center">{error}</p>} */}
           </form>
           <p className="text-center text-gray-400 mt-4">
