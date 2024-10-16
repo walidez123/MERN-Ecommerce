@@ -11,10 +11,9 @@ import { useEffect } from "react";
 import Account from "./pages/auth/account.jsx";
 import ResetPassword from "./pages/auth/resetPassword.jsx";
 import Products from "./dashboard/pages/products/products.jsx";
-import CreateProduct from "./dashboard/pages/products/createProduct.jsx";
 import Categories from "./dashboard/pages/categories/categories.jsx";
-import CreateCategory from "./dashboard/pages/categories/createCategory.jsx";
 import Dashboard from "./dashboard/dashboard.jsx"
+import EditProduct from "./dashboard/pages/products/editeProduct.jsx";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,6 +37,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />}>
               <Route path="products" element={<Products />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="edit-product/:id" element={<EditProduct />} />
             </Route>
           </Routes>
         </div>
