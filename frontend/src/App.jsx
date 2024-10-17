@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/slices/auth.js";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
+import { fetchSettings } from "./redux/slices/settings.js";
 import Account from "./pages/auth/account.jsx";
 import ResetPassword from "./pages/auth/resetPassword.jsx";
 import Products from "./dashboard/pages/products/products.jsx";
@@ -15,6 +16,7 @@ import Categories from "./dashboard/pages/categories/categories.jsx";
 import Dashboard from "./dashboard/dashboard.jsx";
 import EditProduct from "./dashboard/pages/products/editeProduct.jsx";
 import Unauthorized from "./pages/auth/unAutharized.jsx";
+import WebsiteSettings from "./dashboard/pages/settings/websiteSettings.jsx";
 
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -22,6 +24,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
+    dispatch(fetchSettings());
   }, [dispatch]);
 
   // Function to check if user is an admin
@@ -45,6 +48,7 @@ function App() {
                 <Route path="products" element={<Products />} />
                 <Route path="categories" element={<Categories />} />
                 <Route path="edit-product/:id" element={<EditProduct />} />
+                <Route path="settings" element={<WebsiteSettings />} />
               </Route>
             ) : (
               <Route path="/dashboard/*" element={<Unauthorized/>} />

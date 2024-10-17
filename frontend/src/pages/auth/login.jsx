@@ -101,7 +101,7 @@ const Login = () => {
               type="submit"
               disabled={loading} // Disable button during loading
             >
-              <span className="text-xl">{loading ? "Logging in..." : "Login"}</span>
+              <button className="text-xl w-full">{loading ? "Logging in..." : "Login"}</button>
             </StandardButton>
           </form>
           <p className="text-center text-gray-400 mt-4">

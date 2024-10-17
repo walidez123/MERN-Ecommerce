@@ -7,50 +7,42 @@ import StandardButton from "./buttons/standerdButton";
 import GreenButton from "./buttons/greenButton";
 
 const Navbar = () => {
-  const { isAuthenticated, user } = useSelector((state) => state.auth); // Get auth state
-
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { settings } = useSelector((state) => state.settings);
   const isAdmin = user && user.role === "admin";
 
   return (
-    <div className=" min-h-16 p-4 border-b-2">
+    <div className="min-h-16 p-4 border-b-2">
       <div className="flex justify-between w-[80%] m-auto">
         <div className="flex items-center">
-          <Link
-            to={"/"}
-            className="text-green-800 text-2xl text-[40px]  font-bold "
-          >
-            AUTH
+          <Link to="/" className="text-green-800 text-2xl text-[40px] font-bold">
+            {settings?.siteTitle}
           </Link>
-
         </div>
-
         <div className="flex gap-2 justify-center items-center">
           {isAdmin && (
-            <Link to={"/dashboard"} className="text-2xl">
+            <Link to="/dashboard" className="text-2xl">
               <StandardButton>Go To Dashboard</StandardButton>
             </Link>
           )}
           {isAuthenticated && (
-            <Link to={"/cart"} className="text-white text-[40px]">
+            <Link to="/cart" className="text-white text-[40px]">
               <CiShoppingCart />
             </Link>
           )}
-
           {isAuthenticated ? (
             <AccountDropdown user={user} />
           ) : (
             <>
-              
-
-              <Link to={"/signup"}>
+              <Link to="/signup">
                 <GreenButton>
                   <div className="flex">
-                  <IoMdPersonAdd size={30} />
-                  <span className="text-2xl">Signup</span>
+                    <IoMdPersonAdd size={30} />
+                    <span className="text-2xl">Signup</span>
                   </div>
                 </GreenButton>
               </Link>
-              <Link to={"/login"}>
+              <Link to="/login">
                 <StandardButton>
                   <div className="flex">
                     <CiLogin size={30} />

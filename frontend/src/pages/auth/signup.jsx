@@ -103,8 +103,8 @@ const Signup = () => {
               type="submit"
               disabled={loading}
             >
-              <span className="text-xl">{loading ? "Creating..." : "Create an account"}</span>
-            </StandardButton>
+              <button className="text-xl w-full">{loading ? "Creating an acount..." : "Signup"}</button>
+              </StandardButton>
             {/* {error && <p className="text-red-500 text-center">{error}</p>} */}
           </form>
           <p className="text-center text-gray-400 mt-4">
