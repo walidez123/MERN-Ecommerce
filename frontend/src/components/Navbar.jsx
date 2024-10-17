@@ -9,6 +9,8 @@ import GreenButton from "./buttons/greenButton";
 const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth); // Get auth state
 
+  const isAdmin = user && user.role === "admin";
+
   return (
     <div className=" min-h-16 p-4 border-b-2">
       <div className="flex justify-between w-[80%] m-auto">
@@ -19,9 +21,15 @@ const Navbar = () => {
           >
             AUTH
           </Link>
+
         </div>
 
         <div className="flex gap-2 justify-center items-center">
+          {isAdmin && (
+            <Link to={"/dashboard"} className="text-2xl">
+              <StandardButton>Go To Dashboard</StandardButton>
+            </Link>
+          )}
           {isAuthenticated && (
             <Link to={"/cart"} className="text-white text-[40px]">
               <CiShoppingCart />

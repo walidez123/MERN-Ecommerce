@@ -44,6 +44,16 @@ export const createCategory = createAsyncThunk('categories/createCategory', asyn
   }
 });
 
+// Delete a category by ID
+export const deleteCategory = createAsyncThunk('categories/deleteCategory', async (categoryId, { rejectWithValue }) => {
+  try {
+    await axios.delete(`${BASE_URL}/${categoryId}`);
+    return categoryId;  // Return the ID of the deleted category to remove it from the list
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
+});
+
 // Categories slice
 const categorySlice = createSlice({
   name: 'categories',
@@ -87,6 +97,19 @@ const categorySlice = createSlice({
         state.categories.push(action.payload);  // Add the new category to the list
       })
       .addCase(createCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Handle deleteCategory
+      .addCase(deleteCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categories = state.categories.filter(category => category._id !== action.payload);  // Remove deleted category
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
