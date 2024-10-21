@@ -48,7 +48,7 @@ export const createOrderFromCart = async (req, res) => {
 // Get user orders
 export const getUserOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user.id }).populate('items.product');
+    const orders = await Order.find({ user: req.userId }).populate('items.product');
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -65,3 +65,26 @@ export const getOrderById = async (req, res) => {
   }
 };
 
+// Delete an order by ID
+export const deleteOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    // Check if the order exists
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Check if the order belongs to the authenticated user
+    if (order.user.toString() !== req.userId) {
+      return res.status(403).json({ message: 'You are not authorized to delete this order' });
+    }
+
+    // Delete the order
+    await order.remove();
+
+    res.status(200).json({ message: 'Order deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
