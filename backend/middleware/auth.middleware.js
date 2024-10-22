@@ -8,10 +8,10 @@ export const protectedRoute = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.userId;  // Make sure to use `req.userId`
+    req.userId = decoded.userId; // Set userId for further use
     next();
   } catch (error) {
-    console.error(error);
+    console.error("Token verification error:", error);
     return res.status(500).json({ msg: "Server error" });
   }
 };

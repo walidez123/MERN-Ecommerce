@@ -9,6 +9,7 @@ import GreenButton from "./buttons/greenButton";
 const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const { settings } = useSelector((state) => state.settings);
+  const { totalItems } = useSelector((state) => state.cart);
   const isAdmin = user && user.role === "admin";
 
   return (
@@ -26,9 +27,14 @@ const Navbar = () => {
             </Link>
           )}
           {isAuthenticated && (
-            <Link to="/cart" className="text-white text-[40px]">
-              <CiShoppingCart />
-            </Link>
+          <Link to="/cart" className="text-white text-[40px] relative">
+          <CiShoppingCart />
+          {totalItems > 0 && (
+            <span className="absolute top-[-10px] right-[-10px] bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {totalItems}
+            </span>
+          )}
+        </Link>
           )}
           {isAuthenticated ? (
             <AccountDropdown user={user} />

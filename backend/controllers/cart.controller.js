@@ -2,7 +2,7 @@ import Cart from '../models/cart.model.js';
 
 // Add item to cart
 export const addToCart = async (req, res) => {
-  const { productId, quantity, } = req.body;
+  const { productId, quantity } = req.body;
   try {
     // Find the cart for the authenticated user
     let cart = await Cart.findOne({ user: req.userId });
@@ -16,7 +16,7 @@ export const addToCart = async (req, res) => {
     const existingItem = cart.items.find(item => item.product.toString() === productId);
     if (existingItem) {
       // If it exists, update the quantity
-      existingItem.quantity += quantity; 
+      existingItem.quantity += quantity;
     } else {
       // If it doesn't exist, add a new item
       cart.items.push({ product: productId, quantity });
@@ -64,3 +64,5 @@ export const removeFromCart = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
