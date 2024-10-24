@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion"; // Import framer-motion
 import { getCategories, deleteCategory } from "../../../redux/slices/categories";
 import { toast } from "react-hot-toast";
 import CreateCategory from "./createCategory";
@@ -33,12 +34,32 @@ const Categories = () => {
 
   // Handle delete category
   const handleDeleteCategory = (categoryId) => {
-    if (window.confirm("Are you sure you want to delete this category and all the assosiated products ?")) {
+    if (window.confirm("Are you sure you want to delete this category and all the associated products?")) {
       dispatch(deleteCategory(categoryId))
         .unwrap()  // Unwrap the result to handle fulfilled/rejected actions directly
         .then(() => toast.success("Category deleted successfully"))
         .catch((err) => toast.error(err || "Failed to delete category"));
     }
+  };
+
+  // Motion variants for container and items
+  const containerVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 10,
+        staggerChildren: 0.2, // Delay between items
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
@@ -56,29 +77,36 @@ const Categories = () => {
 
       {/* Display list of categories */}
       {component === "categories" && (
-        <div className="w-full flex justify-center flex-col items-center text-white">
+        <motion.div
+          className="w-full flex justify-center flex-col items-center text-white"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {loading && <p>Loading categories...</p>}  {/* Show loading state */}
           
           {error && <p className="text-red-500">Failed to load categories: {error}</p>}  {/* Show error state */}
           
           {!loading && categories.length === 0 && <p>No categories available.</p>}  {/* No categories message */}
 
-          <ul className="border p-12 text-xl rounded-md flex flex-col gap-4">
+          <motion.ul className="border p-12 text-xl rounded-md flex flex-col gap-4">
             {categories.map((category) => (
-              <li key={category._id} className="border p-4  justify-between items-center flex gap-2">
+              <motion.li
+                key={category._id}
+                className="border p-4 justify-between items-center flex gap-2"
+                variants={itemVariants}
+              >
                 <div>
                   <h3 className="text-xl font-bold">{category.name}</h3>
                   <p className="text-lg opacity-80">{category.description}</p>
                 </div>
-                <button
-                  onClick={() => handleDeleteCategory(category._id)}
-                >
+                <button onClick={() => handleDeleteCategory(category._id)}>
                   <DangerButton>Delete</DangerButton>
                 </button>
-              </li>
+              </motion.li>
             ))}
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
       )}
 
       {/* Display the create category form */}

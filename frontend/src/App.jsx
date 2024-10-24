@@ -22,6 +22,7 @@ import WebsiteSettings from "./dashboard/pages/settings/websiteSettings.jsx";
 import ShowProducts from "./pages/products/products.jsx";
 import ProductDetail from "./pages/products/productDetailes.jsx";
 import Cart from "./pages/cart/cart.jsx";
+import Checkout from "./pages/cart/checkout.jsx";
 function App() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -57,8 +58,13 @@ function App() {
 
                 <Route path="/cart" element={<Unauthorized/>} />
               )
-              
+            }
+            {
+              isAuthenticated ? ( <Route path="/checkout" element={<Checkout />} />
+              ): (
 
+                <Route path="/cart" element={<Unauthorized/>} />
+              )
             }
 
             {/* Dashboard links */}
