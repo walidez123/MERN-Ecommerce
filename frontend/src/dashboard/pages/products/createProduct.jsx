@@ -4,6 +4,7 @@ import { createProduct } from "../../../redux/slices/product"; // Adjust the pat
 import { getCategories } from "../../../redux/slices/categories"; // Adjust the path as necessary
 import StandardButton from "../../../components/buttons/standerdButton";
 import { toast } from "react-hot-toast"; // For notifications
+import MotionComponent from "../../../components/motion";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,8 @@ const CreateProduct = () => {
   };
 
   return (
+    <MotionComponent>
+
     <div className="w-screen flex justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 border rounded-md p-12">
         <input
@@ -116,6 +119,8 @@ const CreateProduct = () => {
       {categoriesLoading && <p>Loading categories...</p>}
       {categoriesError && <p className="text-red-500">Error loading categories: {categoriesError}</p>}
     </div>
+    </MotionComponent>
+
   );
 };
 

@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom"; 
 import StandardButton from "../../components/buttons/standerdButton";
+import MotionComponent from "../../components/motion";
 
 const ProductCard = ({ product }) => {
   return (
+    <MotionComponent>
+
     <div className="flex flex-col gap-2 items-center border rounded-md p-4 text-white">
       <div className="flex w-full justify-between text-2xl">
         <h2>
@@ -21,6 +24,7 @@ const ProductCard = ({ product }) => {
         </NavLink>
       </div>
     </div>
+    </MotionComponent>
   );
 };
 

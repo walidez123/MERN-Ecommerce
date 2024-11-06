@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createCategory } from "../../../redux/slices/categories"; // Make sure the path is correct
 import { toast } from "react-hot-toast";
 import StandardButton from "../../../components/buttons/standerdButton";
+import MotionComponent from "../../../components/motion";
 
 const CreateCategory = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const CreateCategory = () => {
   };
 
   return (
+    <MotionComponent>
     <div className="w-full flex justify-center flex-col items-center text-white">
 
       {/* Error message */}
@@ -68,6 +70,8 @@ const CreateCategory = () => {
         </button>
       </form>
     </div>
+    </MotionComponent>
+
   );
 };
 

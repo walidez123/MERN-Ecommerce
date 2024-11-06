@@ -3,6 +3,7 @@ import {  NavLink } from "react-router-dom"; // Import Link for navigation
 import { deleteProductById } from "../../../redux/slices/product"; // Import the delete action
 import DangerButton from "../../../components/buttons/dangerButton";
 import StandardButton from "../../../components/buttons/standerdButton";
+import MotionComponent from "../../../components/motion";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const ProductCard = ({ product }) => {
   };
 
   return (
+    <MotionComponent>
+
     <div className="flex flex-col gap-2 items-center border rounded-md p-4 text-white">
       <div className="flex w-full justify-between text-2xl">
         <h2>
@@ -36,6 +39,8 @@ const ProductCard = ({ product }) => {
         </button>
       </div>
     </div>
+    </MotionComponent>
+
   );
 };
 

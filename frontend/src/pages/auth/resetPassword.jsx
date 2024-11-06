@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../redux/slices/auth"; // Adjust the path as necessary
 import toast from "react-hot-toast"; // For showing notifications
+import MotionComponent from "../../components/motion";
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,9 @@ const ResetPassword = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     if (isAuthenticated) navigate("/"); // Redirect if authenticated
@@ -39,7 +42,9 @@ const ResetPassword = () => {
       return;
     }
 
-    const response = await dispatch(resetPassword({ resetToken: token, newPassword }));
+    const response = await dispatch(
+      resetPassword({ resetToken: token, newPassword })
+    );
 
     // Check if the reset password action was successful
     if (response.meta.requestStatus === "fulfilled") {
@@ -52,12 +57,7 @@ const ResetPassword = () => {
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <motion.div
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <MotionComponent>
         <div className="bg-gray-900 min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
@@ -88,7 +88,9 @@ const ResetPassword = () => {
               className="p-3 bg-gray-600 rounded-md text-white"
             />
             <button
-              className={`bg-green-600 text-white p-3 rounded-md text-xl ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+              className={`bg-green-600 text-white p-3 rounded-md text-xl ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
               type="submit"
               disabled={loading}
             >
@@ -96,7 +98,7 @@ const ResetPassword = () => {
             </button>
           </form>
         </div>
-      </motion.div>
+      </MotionComponent>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../redux/slices/auth.js"; // Adjust the path as necessary
 import { toast } from "react-hot-toast"; // Import toast
 import StandardButton from "../../components/buttons/standerdButton.jsx";
+import MotionComponent from "../../components/motion.jsx";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -53,13 +54,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col">
-      <motion.div
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+    <MotionComponent>
+      <div className="w-screen min-h-screen flex flex-col">
         <div className="border min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
@@ -103,8 +99,10 @@ const Signup = () => {
               type="submit"
               disabled={loading}
             >
-              <button className="text-xl w-full">{loading ? "Creating an acount..." : "Signup"}</button>
-              </StandardButton>
+              <button className="text-xl w-full">
+                {loading ? "Creating an acount..." : "Signup"}
+              </button>
+            </StandardButton>
             {/* {error && <p className="text-red-500 text-center">{error}</p>} */}
           </form>
           <p className="text-center text-gray-400 mt-4">
@@ -114,8 +112,8 @@ const Signup = () => {
             </Link>
           </p>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </MotionComponent>
   );
 };
 

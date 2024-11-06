@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSettings, updateSettings } from "../../../redux/slices/settings.js"; // Adjust the import as necessary
 import { toast } from "react-hot-toast";
-import { motion } from "framer-motion"; // Import motion for animations
 import StandardButton from "../../../components/buttons/standerdButton"; // Adjust the path as necessary
+import MotionComponent from "../../../components/motion.jsx";
 
 const WebsiteSettings = () => {
   const dispatch = useDispatch();
@@ -59,13 +59,10 @@ const WebsiteSettings = () => {
   };
 
   return (
+    <MotionComponent>
+
     <div className="w-screen min-h-screen flex flex-col">
-      <motion.div
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="border min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
           {loading ? (
             <p>Loading...</p>
@@ -134,8 +131,10 @@ const WebsiteSettings = () => {
             </form>
           )}
         </div>
-      </motion.div>
+      </div>
     </div>
+    </MotionComponent>
+
   );
 };
 

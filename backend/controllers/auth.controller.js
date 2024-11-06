@@ -109,6 +109,9 @@ export const login = async (req,res) => {
     return res.status(400).json({msg: "Please fill all fields"})
   }
   const user = await User.findOne({email})
+  if(!user){
+    return res.status(400).json({msg: "User not found"})  // User not found in the database
+  }
   const correctPassword =await bcrypt.compare(password,user.password)
   if(correctPassword){
     generateTokenAndSetCookies(res, user._id);

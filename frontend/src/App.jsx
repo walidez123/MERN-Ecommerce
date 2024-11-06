@@ -10,7 +10,6 @@ import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { fetchSettings } from "./redux/slices/settings.js";
 
-
 import Account from "./pages/auth/account.jsx";
 import ResetPassword from "./pages/auth/resetPassword.jsx";
 import Products from "./dashboard/pages/products/products.jsx";
@@ -39,47 +38,41 @@ function App() {
     <div className="bg-[#262626] min-h-screen overflow-hidden">
       <div className="relative">
         <Navbar />
-        <div className="pt-20">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            
-            
-            
-            <Route path="/products" element={<ShowProducts />} />
-            <Route path="/products/:productId" element={<ProductDetail />} />
-            
-            {
-              isAuthenticated ? ( <Route path="/cart" element={<Cart />} />
-              ): (
+          <div className="pt-20">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
-                <Route path="/cart" element={<Unauthorized/>} />
-              )
-            }
-            {
-              isAuthenticated ? ( <Route path="/checkout" element={<Checkout />} />
-              ): (
+              <Route path="/products" element={<ShowProducts />} />
+              <Route path="/products/:productId" element={<ProductDetail />} />
 
-                <Route path="/cart" element={<Unauthorized/>} />
-              )
-            }
+              {isAuthenticated ? (
+                <Route path="/cart" element={<Cart />} />
+              ) : (
+                <Route path="/cart" element={<Unauthorized />} />
+              )}
+              {isAuthenticated ? (
+                <Route path="/checkout" element={<Checkout />} />
+              ) : (
+                <Route path="/cart" element={<Unauthorized />} />
+              )}
 
-            {/* Dashboard links */}
-            {isAuthenticated && isAdmin ? (
-              <Route path="/dashboard" element={<Dashboard />}>
-                <Route path="products" element={<Products />} />
-                <Route path="categories" element={<Categories />} />
-                <Route path="edit-product/:id" element={<EditProduct />} />
-                <Route path="settings" element={<WebsiteSettings />} />
-              </Route>
-            ) : (
-              <Route path="/dashboard/*" element={<Unauthorized/>} />
-            )}
-          </Routes>
-        </div>
+              {/* Dashboard links */}
+              {isAuthenticated && isAdmin ? (
+                <Route path="/dashboard" element={<Dashboard />}>
+                  <Route path="products" element={<Products />} />
+                  <Route path="categories" element={<Categories />} />
+                  <Route path="edit-product/:id" element={<EditProduct />} />
+                  <Route path="settings" element={<WebsiteSettings />} />
+                </Route>
+              ) : (
+                <Route path="/dashboard/*" element={<Unauthorized />} />
+              )}
+            </Routes>
+          </div>
       </div>
       <Toaster />
     </div>

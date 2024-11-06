@@ -5,6 +5,7 @@ import { getCategories } from "../../../redux/slices/categories"; // Adjust the 
 import StandardButton from "../../../components/buttons/standerdButton";
 import { toast } from "react-hot-toast"; // For notifications
 import { useNavigate, useParams } from "react-router-dom"; // For getting the product ID from the route
+import MotionComponent from "../../../components/motion";
 
 const EditProduct = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,8 @@ const EditProduct = () => {
   
   
   return (
+    <MotionComponent>
+
     <div className="w-screen flex justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 border rounded-md p-12">
         <input
@@ -136,6 +139,8 @@ const EditProduct = () => {
       {categoriesLoading && <p>Loading categories...</p>}
       {categoriesError && <p className="text-red-500">Error loading categories: {categoriesError}</p>}
     </div>
+    </MotionComponent>
+
   );
 };
 

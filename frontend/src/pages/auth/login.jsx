@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword, login } from "../../redux/slices/auth"; // Adjust the path as necessary
 import toast from "react-hot-toast"; // For showing notifications
 import StandardButton from "../../components/buttons/standerdButton";
+import MotionComponent from "../../components/motion";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -57,23 +58,19 @@ const Login = () => {
 
     // Check if the response was successful
     if (response.meta.requestStatus === "fulfilled") {
-        toast.success("Code sent to your email!");
-        navigate("/reset-password"); // Redirect to reset password page
+      toast.success("Code sent to your email!");
+      navigate("/reset-password"); // Redirect to reset password page
     } else {
-        // Extract the error message from the response payload
-        const errorMessage = response.payload?.msg || "An error occurred. Please try again.";
-        toast.error(errorMessage);
+      // Extract the error message from the response payload
+      const errorMessage =
+        response.payload?.msg || "An error occurred. Please try again.";
+      toast.error(errorMessage);
     }
-};
+  };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col">
-      <motion.div
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
+    <MotionComponent>
+      <div className="w-screen min-h-screen flex flex-col">
         <div className="border min-w-[480px] mx-auto p-24 rounded-md shadow-xl">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
@@ -95,13 +92,13 @@ const Login = () => {
               className="p-3 bg-white rounded-md text-black"
             />
             <StandardButton
-              className={`  ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`  ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
               type="submit"
               disabled={loading} // Disable button during loading
             >
-              <button className="text-xl w-full">{loading ? "Logging in..." : "Login"}</button>
+              <button className="text-xl w-full">
+                {loading ? "Logging in..." : "Login"}
+              </button>
             </StandardButton>
           </form>
           <p className="text-center text-gray-400 mt-4">
@@ -109,13 +106,16 @@ const Login = () => {
             <Link to="/signup" className="text-green-600">
               Sign up
             </Link>
-            <button onClick={handleForgotPassword} className="text-center text-gray-400 mt-4">
+            <button
+              onClick={handleForgotPassword}
+              className="text-center text-gray-400 mt-4"
+            >
               forgot your password?
             </button>
           </p>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </MotionComponent>
   );
 };
 
